@@ -8,14 +8,16 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Ajout de la permission d'écriture
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v4 # Mise à jour vers v4
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Mise à jour vers v4
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Version de Node.js LTS
+          node-version: '20'
 
       - name: Install and Build 🔧
         run: |
