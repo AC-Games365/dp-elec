@@ -1,0 +1,13 @@
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})(),document.addEventListener(`DOMContentLoaded`,()=>{let e=document.getElementById(`year`);e&&(e.textContent=new Date().getFullYear());let t=document.getElementById(`contact-form`),n=document.getElementById(`submit-btn`),r=document.getElementById(`form-status`);t&&t.addEventListener(`submit`,async e=>{e.preventDefault();let i=n.textContent;n.disabled=!0,n.innerHTML=`
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Envoi en cours...
+      `;try{let e=new FormData(t),n=await fetch(`https://formsubmit.co/ajax/delobepierre@gmail.com`,{method:`POST`,body:e});if((await n.json()).success===`true`||n.ok)t.reset(),r.classList.remove(`hidden`,`bg-red-50`,`text-red-700`),r.classList.add(`bg-green-50`,`text-green-700`,`border`,`border-green-200`),r.innerHTML=`
+            <p class="font-bold">Message envoyé avec succès !</p>
+            <p class="text-sm mt-1">Merci de nous avoir contactés. Nous vous répondrons dans les plus brefs délais.</p>
+          `;else throw Error(`Erreur lors de l'envoi`)}catch{r.classList.remove(`hidden`,`bg-green-50`,`text-green-700`),r.classList.add(`bg-red-50`,`text-red-700`,`border`,`border-red-200`),r.innerHTML=`
+          <p class="font-bold">Une erreur est survenue.</p>
+          <p class="text-sm mt-1">Veuillez réessayer ou nous contacter directement par téléphone.</p>
+        `}finally{n.disabled=!1,n.textContent=i,r.scrollIntoView({behavior:`smooth`,block:`nearest`})}})});
