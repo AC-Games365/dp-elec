@@ -89,6 +89,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Gestion de la popup Bornes de Recharge ---
+  const cardBornes = document.getElementById('card-bornes-recharge');
+  const popupBornes = document.getElementById('popup-bornes');
+  const closePopupBtn = document.getElementById('close-popup');
+  const closePopupBtn2 = document.getElementById('close-popup-btn');
+  const popupContent = document.getElementById('popup-content');
+
+  if (cardBornes && popupBornes) {
+    const openPopup = () => {
+      popupBornes.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      setTimeout(() => {
+        popupBornes.classList.remove('opacity-0');
+        popupContent.classList.remove('scale-95');
+      }, 10);
+    };
+
+    const closePopup = () => {
+      popupBornes.classList.add('opacity-0');
+      popupContent.classList.add('scale-95');
+      setTimeout(() => {
+        popupBornes.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }, 300);
+    };
+
+    cardBornes.addEventListener('click', openPopup);
+    closePopupBtn.addEventListener('click', closePopup);
+    closePopupBtn2.addEventListener('click', closePopup);
+
+    // Fermer en cliquant en dehors
+    popupBornes.addEventListener('click', (e) => {
+      if (e.target === popupBornes) {
+        closePopup();
+      }
+    });
+
+    // Fermer avec la touche Echap
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !popupBornes.classList.contains('hidden')) {
+        closePopup();
+      }
+    });
+  }
+
   // Gestion du formulaire de contact
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
@@ -136,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.success === "true" || response.ok) {
           // Succès
           contactForm.reset();
-          if (typeof grecaptcha !== 'undefined') grecaptcha.reset(); // Réinitialiser le CAPTCHA
+          if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
           formStatus.classList.remove('hidden', 'bg-red-50', 'text-red-700');
           formStatus.classList.add('bg-green-50', 'text-green-700', 'border', 'border-green-200');
           formStatus.innerHTML = `
