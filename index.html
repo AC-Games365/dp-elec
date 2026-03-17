@@ -12,8 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- reCAPTCHA v2 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script type="module" crossorigin src="/assets/index-CGVYnpL8.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-kfZJdHp4.css">
+    <script type="module" crossorigin src="/assets/index-Cm7oNibm.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DnYxKm4w.css">
   </head>
   <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-azure-200 selection:text-azure-900">
 
@@ -169,35 +169,40 @@
 
     <!-- Popup Bornes de Recharge -->
     <div id="popup-bornes" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm transition-opacity opacity-0">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full relative overflow-hidden transform scale-95 transition-transform duration-300" id="popup-content">
-            <button id="close-popup" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-slate-600 hover:text-slate-900 transition z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <div class="p-8 text-center">
-                <h3 class="text-2xl font-bold text-slate-900 mb-6">Nos Certifications</h3>
-                <div class="grid grid-cols-1 gap-8">
-                     <div class="flex flex-col items-center">
-                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm w-full flex items-center justify-center h-48">
-                             <img src="/assets/easee-COaOWvPB.jpg" alt="Easee" class="max-h-full max-w-full object-contain">
-                         </div>
-                         <p class="mt-2 font-medium text-slate-600">Partenaire Easee</p>
-                     </div>
-                     <div class="flex flex-col items-center">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm w-full flex items-center justify-center h-48">
-                            <img src="/assets/certificat_walbox-DXsVCibL.jpg" alt="Certificat Wallbox" class="max-h-full max-w-full object-contain">
-                        </div>
-                         <p class="mt-2 font-medium text-slate-600">Certifié Wallbox</p>
-                     </div>
-                </div>
-                <div class="mt-8">
-                    <button id="close-popup-btn" class="bg-azure-600 hover:bg-azure-500 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-azure-600/30">
-                        Fermer
-                    </button>
-                </div>
+      <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full relative overflow-y-auto max-h-[90vh] transform scale-95 transition-transform duration-300" id="popup-content">
+
+        <button id="close-popup" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 p-2 rounded-full text-slate-600 hover:text-slate-900 transition z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div class="p-8 text-center">
+          <h3 class="text-2xl font-bold text-slate-900 mb-6">Nos Certifications</h3>
+
+          <div class="grid grid-cols-1 gap-8">
+            <div class="flex flex-col items-center">
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm w-full flex items-center justify-center h-48">
+                <img src="/assets/easee-COaOWvPB.jpg" alt="Easee" class="max-h-full max-w-full object-contain">
+              </div>
+              <p class="mt-2 font-medium text-slate-600">Partenaire Easee</p>
             </div>
+
+            <div class="flex flex-col items-center">
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm w-full flex items-center justify-center h-48">
+                <img src="/assets/certificat_walbox-DXsVCibL.jpg" alt="Certificat Wallbox" class="max-h-full max-w-full object-contain">
+              </div>
+              <p class="mt-2 font-medium text-slate-600">Certifié Wallbox</p>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <button id="close-popup-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-8 rounded-2xl transition shadow-lg">
+              Fermer la fenêtre
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
 
@@ -315,7 +320,6 @@
         <!-- 2. Formulaire Centré -->
         <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100">
           <form id="contact-form" action="https://formsubmit.co/delobepierre@gmail.com" method="POST">
-            <!-- Configuration FormSubmit -->
             <input type="hidden" name="_subject" value="Nouvelle demande de contact via le site web">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
@@ -329,31 +333,31 @@
                   <input type="text" id="name" name="name" placeholder="Votre nom" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50" required>
                 </div>
                 <div>
-                   <label for="phone" class="block text-sm font-medium text-slate-700 mb-2">Téléphone</label>
-                   <input type="tel" id="phone" name="phone" placeholder="04..." inputmode="tel" pattern="[0-9\\s\\/\\+]*" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50">
+                  <label for="phone" class="block text-sm font-medium text-slate-700 mb-2">Téléphone</label>
+                  <input type="tel" id="phone" name="phone" placeholder="04..." inputmode="tel" pattern="[0-9\\s\\/\\+]*" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50">
                 </div>
               </div>
 
               <div>
                 <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email <span class="text-red-500">*</span></label>
-                <input type="email" id="email" name="email" placeholder="exemple@email.com" pattern="[a-z0-9._%+\\-]+@[a-z0-9.\\-]+\\.[a-z]{2,}$" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50" required>
+                <input type="email" id="email" name="email" placeholder="exemple@email.com" pattern="[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50" required title="Veuillez entrer une adresse email valide (ex: nom@domaine.com)">
               </div>
 
               <fieldset>
-                <legend class="block text-sm font-medium text-slate-700 mb-2">Adresse du chantier</legend>
+                <legend class="block text-sm font-medium text-slate-700 mb-2">Adresse du chantier <span class="text-slate-400 text-xs font-normal">(Ville obligatoire *)</span></legend>
                 <div class="grid md:grid-cols-5 gap-6 mt-2">
-                    <div class="md:col-span-3">
-                        <label for="street" class="sr-only">Rue et numéro</label>
-                        <input type="text" id="street" name="street" placeholder="Rue et numéro" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50">
-                    </div>
-                    <div>
-                        <label for="postal_code" class="sr-only">Code Postal</label>
-                        <input type="text" id="postal_code" name="postal_code" placeholder="Code Postal" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50">
-                    </div>
-                    <div>
-                        <label for="city" class="sr-only">Ville</label>
-                        <input type="text" id="city" name="city" placeholder="Ville *" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50" required>
-                    </div>
+                  <div class="md:col-span-3">
+                    <label for="street" class="sr-only">Rue et numéro</label>
+                    <input type="text" id="street" name="street" placeholder="Rue et numéro" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50">
+                  </div>
+                  <div>
+                    <label for="postal_code" class="sr-only">Code Postal</label>
+                    <input type="text" id="postal_code" name="postal_code" placeholder="CP" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50">
+                  </div>
+                  <div>
+                    <label for="city" class="sr-only">Ville</label>
+                    <input type="text" id="city" name="city" placeholder="Ville *" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50" required>
+                  </div>
                 </div>
               </fieldset>
 
@@ -362,7 +366,6 @@
                 <textarea id="message" name="message" rows="5" placeholder="Bonjour, je souhaiterais un devis pour..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-azure-500 focus:ring-2 focus:ring-azure-200 outline-none transition bg-slate-50" required></textarea>
               </div>
 
-              <!-- reCAPTCHA v2 -->
               <div class="g-recaptcha" data-sitekey="6LeTtI0sAAAAAN9rRMis0PSFbK2i3OehK5BXZVJ8"></div>
 
               <button id="submit-btn" type="submit" class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition shadow-lg shadow-slate-900/40 transform hover:-translate-y-1 text-lg">
@@ -370,12 +373,9 @@
               </button>
             </div>
 
-            <!-- Message de statut -->
             <div id="form-status" class="hidden mt-6 p-4 rounded-xl text-center font-medium"></div>
           </form>
         </div>
-      </div>
-    </section>
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
