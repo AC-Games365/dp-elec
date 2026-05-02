@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // 2. Attendre la fin de l'animation de fermeture pour scroller précisément
           if (targetElement) {
             setTimeout(() => {
-              const headerOffset = 60; // 60px pour caler légèrement au-dessus du bord du header et masquer le bloc précédent
+              const headerOffset = 90; // Augmenté pour éviter que le header ne cache le haut de la carte
               const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
               const offsetPosition = elementPosition - headerOffset;
 
@@ -284,6 +284,47 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn) prevBtn.addEventListener('click', () => updateSlider(currentSlide === 1 ? 2 : 1));
     if (dot1) dot1.addEventListener('click', () => updateSlider(1));
     if (dot2) dot2.addEventListener('click', () => updateSlider(2));
+
+    // --- Gestion du Zoom Image ---
+    const zoomOverlay = document.getElementById('image-zoom-overlay');
+    const zoomedImg = document.getElementById('zoomed-image');
+
+    const openZoom = (src) => {
+      if (!zoomOverlay || !zoomedImg) return;
+      zoomedImg.src = src;
+      zoomOverlay.classList.remove('hidden');
+      setTimeout(() => {
+        zoomOverlay.classList.remove('opacity-0');
+        zoomedImg.classList.remove('scale-95');
+      }, 10);
+    };
+
+    const closeZoom = () => {
+      if (!zoomOverlay || !zoomedImg) return;
+      zoomOverlay.classList.add('opacity-0');
+      zoomedImg.classList.add('scale-95');
+      setTimeout(() => {
+        zoomOverlay.classList.add('hidden');
+      }, 300);
+    };
+
+    if (slide1) {
+      slide1.addEventListener('click', () => {
+        const img = slide1.querySelector('img');
+        if (img) openZoom(img.src);
+      });
+    }
+
+    if (slide2) {
+      slide2.addEventListener('click', () => {
+        const img = slide2.querySelector('img');
+        if (img) openZoom(img.src);
+      });
+    }
+
+    if (zoomOverlay) {
+      zoomOverlay.addEventListener('click', closeZoom);
+    }
   }
 
   // Gestion du formulaire de contact
