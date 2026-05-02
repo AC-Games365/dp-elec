@@ -11,16 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const GTM_ID = 'GTM-PLQ3672C'; // ID Google Tag Manager fourni par le client
 
   const loadGTM = () => {
-    if (window.dataLayer && window.dataLayer.find(e => e.event === 'gtm.js')) return;
+    if (window.gtmLoaded) return;
+    window.gtmLoaded = true;
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-
-    const f = document.getElementsByTagName('script')[0];
-    const j = document.createElement('script');
-    j.async = true;
-    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + GTM_ID;
-    f.parentNode.insertBefore(j, f);
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer', GTM_ID);
   };
 
   const initCookieConsent = () => {
@@ -39,20 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const cookieBanner = document.createElement('div');
     cookieBanner.className = 'fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-2xl p-4 md:p-6 z-50 transform transition-transform duration-500 translate-y-full';
     cookieBanner.innerHTML = `
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="text-slate-600 text-sm md:text-base flex-1">
-          <p class="font-bold text-slate-900 mb-1">🍪 Gestion des cookies</p>
+          <p class="font-bold text-slate-900 mb-1 flex items-center gap-2">
+            <span class="text-lg">🍪</span> Gestion des cookies
+          </p>
           <p>
-            Nous utilisons des cookies pour assurer le bon fonctionnement du site (sécurité via reCAPTCHA) et pour analyser notre audience via Google Analytics.
-            En continuant votre navigation, vous acceptez l'utilisation de ces cookies.
+            Nous utilisons des cookies <strong>essentiels</strong> pour la sécurité (reCAPTCHA) et des cookies <strong>optionnels</strong> pour mesurer l'audience (Google Analytics).
           </p>
         </div>
-        <div class="flex gap-3 whitespace-nowrap">
-          <button id="cookie-accept" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg shadow-slate-900/20 text-sm">
-            Accepter
+        <div class="flex flex-col sm:flex-row gap-3 whitespace-nowrap w-full md:w-auto">
+          <button id="cookie-accept" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-slate-900/20 text-sm">
+            Tout accepter
           </button>
-          <button id="cookie-decline" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-6 py-3 rounded-lg font-bold transition text-sm">
-            Refuser
+          <button id="cookie-decline" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-6 py-3 rounded-xl font-bold transition text-sm">
+            Uniquement les essentiels
           </button>
         </div>
       </div>
@@ -118,6 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     mobileMenuButton.addEventListener('click', toggleMenu);
+
+    // Fermer le menu si on clique sur le "vide" (le fond du menu mobile)
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu || e.target.id === 'mobile-menu-inner') {
+        toggleMenu();
+      }
+    });
 
     mobileLinks.forEach(link => {
       link.addEventListener('click', (e) => {
