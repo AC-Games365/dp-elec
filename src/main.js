@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // 2. Attendre la fin de l'animation de fermeture pour scroller précisément
           if (targetElement) {
             setTimeout(() => {
-              const headerOffset = 128; // 128px (correspond à scroll-mt-32) pour laisser de l'espace
+              const headerOffset = 60; // 60px pour caler légèrement au-dessus du bord du header et masquer le bloc précédent
               const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
               const offsetPosition = elementPosition - headerOffset;
 
