@@ -7,16 +7,36 @@ document.addEventListener('DOMContentLoaded', () => {
     yearSpan.textContent = new Date().getFullYear();
   }
 
-  // --- Gestion du bandeau Cookies ---
+  // --- Gestion du bandeau Cookies & Google Analytics ---
+  const GA_ID = 'G-WNVX0B9670'; // ID réel fourni par le client
+
+  const loadGA = () => {
+    if (window.gtag) return;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){window.dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  };
+
   const initCookieConsent = () => {
     const CONSENT_KEY = 'dp_elec_cookie_consent';
-    
-    // Vérifier si l'utilisateur a déjà répondu
-    if (localStorage.getItem(CONSENT_KEY)) {
+    const currentConsent = localStorage.getItem(CONSENT_KEY);
+
+    if (currentConsent === 'accepted') {
+      loadGA();
       return;
     }
 
-    // Créer le bandeau
+    if (currentConsent) {
+      return;
+    }
+
     const cookieBanner = document.createElement('div');
     cookieBanner.className = 'fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-2xl p-4 md:p-6 z-50 transform transition-transform duration-500 translate-y-full';
     cookieBanner.innerHTML = `
@@ -24,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="text-slate-600 text-sm md:text-base flex-1">
           <p class="font-bold text-slate-900 mb-1">🍪 Gestion des cookies</p>
           <p>
-            Nous utilisons des cookies pour assurer le bon fonctionnement du site (notamment pour la sécurité via reCAPTCHA).
+            Nous utilisons des cookies pour assurer le bon fonctionnement du site (sécurité via reCAPTCHA) et pour analyser notre audience via Google Analytics.
             En continuant votre navigation, vous acceptez l'utilisation de ces cookies.
           </p>
         </div>
@@ -41,18 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.body.appendChild(cookieBanner);
 
-    // Animation d'entrée
     setTimeout(() => {
       cookieBanner.classList.remove('translate-y-full');
     }, 1000);
 
-    // Gestion des clics
     const acceptBtn = cookieBanner.querySelector('#cookie-accept');
     const declineBtn = cookieBanner.querySelector('#cookie-decline');
 
     const closeBanner = (accepted) => {
       cookieBanner.classList.add('translate-y-full');
       localStorage.setItem(CONSENT_KEY, accepted ? 'accepted' : 'declined');
+      if (accepted) {
+        loadGA();
+      }
       setTimeout(() => {
         cookieBanner.remove();
       }, 500);
@@ -67,9 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Gestion du bouton "Scroll to Top"
   const scrollToTopBtn = document.getElementById('scroll-to-top');
-  
+
   if (scrollToTopBtn) {
-    // Afficher/masquer le bouton selon le scroll
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 300) {
         scrollToTopBtn.classList.remove('opacity-0', 'invisible');
@@ -80,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Scroll vers le haut au clic
     scrollToTopBtn.addEventListener('click', () => {
       window.scrollTo({
         top: 0,
@@ -116,22 +135,94 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     cardBornes.addEventListener('click', openPopup);
-    closePopupBtn.addEventListener('click', closePopup);
-    closePopupBtn2.addEventListener('click', closePopup);
+    // FIX: null guards — ces IDs peuvent ne pas exister dans le HTML
+    if (closePopupBtn) closePopupBtn.addEventListener('click', closePopup);
+    if (closePopupBtn2) closePopupBtn2.addEventListener('click', closePopup);
 
-    // Fermer en cliquant en dehors
     popupBornes.addEventListener('click', (e) => {
       if (e.target === popupBornes) {
         closePopup();
       }
     });
 
-    // Fermer avec la touche Echap
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !popupBornes.classList.contains('hidden')) {
         closePopup();
       }
     });
+  }
+
+  // --- Gestion de la popup Batteries ---
+  const cardBatterie = document.getElementById('card-batterie');
+  const popupBatterie = document.getElementById('popup-batterie');
+  const closePopupBatterieBtn = document.getElementById('close-popup-batterie');
+  const closePopupBatterieBtn2 = document.getElementById('close-popup-btn-batterie');
+  const popupContentBatterie = document.getElementById('popup-content-batterie');
+
+  if (cardBatterie && popupBatterie) {
+    const openPopupBatterie = () => {
+      popupBatterie.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      setTimeout(() => {
+        popupBatterie.classList.remove('opacity-0');
+        popupContentBatterie.classList.remove('scale-95');
+      }, 10);
+    };
+
+    const closePopupBatterie = () => {
+      popupBatterie.classList.add('opacity-0');
+      popupContentBatterie.classList.add('scale-95');
+      setTimeout(() => {
+        popupBatterie.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }, 300);
+    };
+
+    cardBatterie.addEventListener('click', openPopupBatterie);
+    // FIX: null guards — ces IDs peuvent ne pas exister dans le HTML
+    if (closePopupBatterieBtn) closePopupBatterieBtn.addEventListener('click', closePopupBatterie);
+    if (closePopupBatterieBtn2) closePopupBatterieBtn2.addEventListener('click', closePopupBatterie);
+
+    popupBatterie.addEventListener('click', (e) => {
+      if (e.target === popupBatterie) {
+        closePopupBatterie();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !popupBatterie.classList.contains('hidden')) {
+        closePopupBatterie();
+      }
+    });
+
+    // --- Logique du Slider de Batteries ---
+    let currentSlide = 1;
+    const slide1 = document.getElementById('battery-slide-1');
+    const slide2 = document.getElementById('battery-slide-2');
+    const dot1 = document.getElementById('battery-dot-1');
+    const dot2 = document.getElementById('battery-dot-2');
+    const prevBtn = document.getElementById('prev-battery');
+    const nextBtn = document.getElementById('next-battery');
+
+    const updateSlider = (index) => {
+      currentSlide = index;
+      if (currentSlide === 1) {
+        slide1.className = 'absolute inset-0 transition-all duration-700 ease-in-out opacity-100 transform translate-x-0';
+        slide2.className = 'absolute inset-0 transition-all duration-700 ease-in-out opacity-0 transform translate-x-full';
+        dot1.className = 'w-12 h-2 rounded-full bg-azure-600 transition-all duration-300 shadow-md shadow-azure-600/20';
+        dot2.className = 'w-12 h-2 rounded-full bg-slate-200 transition-all duration-300 hover:bg-slate-300';
+      } else {
+        slide1.className = 'absolute inset-0 transition-all duration-700 ease-in-out opacity-0 transform -translate-x-full';
+        slide2.className = 'absolute inset-0 transition-all duration-700 ease-in-out opacity-100 transform translate-x-0';
+        dot1.className = 'w-12 h-2 rounded-full bg-slate-200 transition-all duration-300 hover:bg-slate-300';
+        dot2.className = 'w-12 h-2 rounded-full bg-azure-600 transition-all duration-300 shadow-md shadow-azure-600/20';
+      }
+    };
+
+    if (nextBtn) nextBtn.addEventListener('click', () => updateSlider(currentSlide === 1 ? 2 : 1));
+    if (prevBtn) prevBtn.addEventListener('click', () => updateSlider(currentSlide === 1 ? 2 : 1));
+    if (dot1) dot1.addEventListener('click', () => updateSlider(1));
+    if (dot2) dot2.addEventListener('click', () => updateSlider(2));
   }
 
   // Gestion du formulaire de contact
@@ -142,10 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Vérifier que le reCAPTCHA a été coché
+
       const recaptchaResponse = document.querySelector('.g-recaptcha iframe');
-      // Note: grecaptcha est injecté globalement par le script Google
       // eslint-disable-next-line no-undef
       if (!recaptchaResponse || (typeof grecaptcha !== 'undefined' && !grecaptcha.getResponse())) {
         formStatus.classList.remove('hidden', 'bg-green-50', 'text-green-700');
@@ -156,8 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
       }
-      
-      // Désactiver le bouton pendant l'envoi
+
       const originalBtnText = submitBtn.textContent;
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
@@ -170,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const formData = new FormData(contactForm);
-        
+
         const response = await fetch("https://formsubmit.co/ajax/delobepierre@gmail.com", {
           method: "POST",
           body: formData
@@ -179,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await response.json();
 
         if (result.success === "true" || response.ok) {
-          // Succès
           contactForm.reset();
           if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
           formStatus.classList.remove('hidden', 'bg-red-50', 'text-red-700');
@@ -192,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
           throw new Error("Erreur lors de l'envoi");
         }
       } catch (error) {
-        // Erreur
         formStatus.classList.remove('hidden', 'bg-green-50', 'text-green-700');
         formStatus.classList.add('bg-red-50', 'text-red-700', 'border', 'border-red-200');
         formStatus.innerHTML = `
@@ -200,11 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="text-sm mt-1">Veuillez réessayer ou nous contacter directement par téléphone.</p>
         `;
       } finally {
-        // Réactiver le bouton
         submitBtn.disabled = false;
         submitBtn.textContent = originalBtnText;
-        
-        // Faire défiler vers le message
         formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     });

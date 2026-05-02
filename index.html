@@ -2,7 +2,7 @@
 <html lang="fr" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> <!-- TODO: Remplacer par le nouveau logo dans public/favicon.svg -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DP Elec - Pierre Delobe | Électricien agréé & Bornes de recharge</title>
     <meta name="description" content="DP Elec (Pierre Delobe) : Installations électriques, Rénovations, Mise en conformité, Dépannage et Installation de bornes de recharge à Velaine-sur-Sambre.">
@@ -161,6 +161,21 @@
             </div>
           </div>
 
+          <!-- Carte 6 : Batteries -->
+          <div id="card-batterie" class="cursor-pointer group bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+            <div class="h-56 overflow-hidden relative flex-shrink-0">
+               <img src="./src/assets/batterie.jpg" alt="Batterie domestique" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+               <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+            <div class="p-8 relative flex-grow flex flex-col">
+              <div class="absolute -top-8 right-8 w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition duration-300 ring-4 ring-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 2.25c.414 0 .75.336.75.75v1.5c0 .414-.336.75-.75.75s-.75-.336-.75-.75V3c0-.414.336-.75.75-.75zM7.5 4.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75zM16.5 4.5a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75zM4.5 9A2.25 2.25 0 002.25 11.25v9A2.25 2.25 0 004.5 22.5h15a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0019.5 9h-15zM12 12.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" /></svg>
+              </div>
+              <h4 class="text-xl font-bold mb-3 text-slate-900 group-hover:text-blue-600 transition mt-4">Batteries Domestiques</h4>
+              <p class="text-slate-600 leading-relaxed">Optimisez votre autoconsommation. Installation de systèmes de stockage d'énergie performants et durables.</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -193,11 +208,61 @@
               <p class="mt-2 font-medium text-slate-600">Certifié Wallbox</p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="mt-8">
-            <button id="close-popup-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-8 rounded-2xl transition shadow-lg">
-              Fermer la fenêtre
+    <!-- Popup Batteries -->
+    <div id="popup-batterie" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 bg-slate-900/90 backdrop-blur-md transition-opacity opacity-0">
+      <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-5xl w-full relative overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[95vh]" id="popup-content-batterie">
+
+        <button id="close-popup-batterie" class="absolute top-6 right-6 bg-white/90 hover:bg-white p-3 rounded-full text-slate-600 hover:text-slate-900 transition z-30 shadow-xl backdrop-blur-sm border border-slate-100">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div class="flex-grow overflow-y-auto p-6 md:p-12 text-center flex flex-col items-center justify-center">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-azure-50 text-azure-600 font-bold text-xs uppercase tracking-[0.2em] mb-6 border border-azure-100 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-azure-500 animate-pulse"></span>
+            Partenaire Officiel Azimut
+          </div>
+          <h3 class="text-3xl md:text-5xl font-black text-slate-900 mb-10 tracking-tight">Votre indépendance énergétique</h3>
+
+          <!-- Slider de Batteries -->
+          <div class="relative group w-full max-w-4xl mx-auto mb-12">
+            <div class="overflow-hidden rounded-[2.5rem] md:rounded-[3.5rem] aspect-[16/10] bg-slate-50 shadow-2xl relative border-4 md:border-[12px] border-white ring-1 ring-slate-200">
+              <!-- Image 1 -->
+              <div id="battery-slide-1" class="absolute inset-0 transition-all duration-700 ease-in-out opacity-100 transform translate-x-0">
+                <img src="./src/assets/pub_azimut.jpg" alt="Installation batterie 1" class="w-full h-full object-contain">
+              </div>
+              <!-- Image 2 -->
+              <div id="battery-slide-2" class="absolute inset-0 transition-all duration-700 ease-in-out opacity-0 transform translate-x-full">
+                <img src="./src/assets/certificat_azimut.jpg" alt="Certificat Azimut" class="w-full h-full object-contain">
+              </div>
+            </div>
+
+            <!-- Navigation Premium -->
+            <button id="prev-battery" class="absolute -left-4 md:-left-10 top-1/2 -translate-y-1/2 bg-white hover:bg-slate-50 p-4 md:p-6 rounded-full shadow-2xl transition-all z-20 border border-slate-100 text-slate-900 hover:scale-110 active:scale-95 group/btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-6 h-6 group-hover/btn:-translate-x-0.5 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
             </button>
+            <button id="next-battery" class="absolute -right-4 md:-right-10 top-1/2 -translate-y-1/2 bg-white hover:bg-slate-50 p-4 md:p-6 rounded-full shadow-2xl transition-all z-20 border border-slate-100 text-slate-900 hover:scale-110 active:scale-95 group/btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-6 h-6 group-hover/btn:translate-x-0.5 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            </button>
+
+            <!-- Indicateurs Modernes -->
+            <div class="flex justify-center gap-4 mt-8">
+              <button id="battery-dot-1" class="w-12 h-2 rounded-full bg-azure-600 transition-all duration-300 shadow-md shadow-azure-600/20"></button>
+              <button id="battery-dot-2" class="w-12 h-2 rounded-full bg-slate-200 transition-all duration-300 hover:bg-slate-300"></button>
+            </div>
+          </div>
+
+          <!-- Actions Premium -->
+          <div class="flex flex-col sm:flex-row gap-5 w-full max-w-2xl mx-auto mb-4">
+            <a href="https://designer.azimut.be/?installer_id=44763" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-black py-5 px-8 rounded-2xl transition-all shadow-xl shadow-orange-600/40 flex items-center justify-center gap-4 text-xl uppercase tracking-tight hover:scale-[1.02] active:scale-95 group">
+              <span>Calculer mon autonomie</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-7 h-7 group-hover:translate-x-1.5 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+            </a>
           </div>
         </div>
       </div>
