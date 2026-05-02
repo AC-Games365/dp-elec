@@ -8,20 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Gestion du bandeau Cookies & Google Analytics ---
-  const GA_ID = 'G-WNVX0B9670'; // ID réel fourni par le client
+  const GTM_ID = 'GTM-PLQ3672C'; // ID Google Tag Manager fourni par le client
 
-  const loadGA = () => {
-    if (window.gtag) return;
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-    document.head.appendChild(script);
+  const loadGTM = () => {
+    if (window.dataLayer && window.dataLayer.find(e => e.event === 'gtm.js')) return;
 
     window.dataLayer = window.dataLayer || [];
-    function gtag(){window.dataLayer.push(arguments);}
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', GA_ID);
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+    const f = document.getElementsByTagName('script')[0];
+    const j = document.createElement('script');
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + GTM_ID;
+    f.parentNode.insertBefore(j, f);
   };
 
   const initCookieConsent = () => {
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentConsent = localStorage.getItem(CONSENT_KEY);
 
     if (currentConsent === 'accepted') {
-      loadGA();
+      loadGTM();
       return;
     }
 
@@ -72,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cookieBanner.classList.add('translate-y-full');
       localStorage.setItem(CONSENT_KEY, accepted ? 'accepted' : 'declined');
       if (accepted) {
-        loadGA();
+        loadGTM();
       }
       setTimeout(() => {
         cookieBanner.remove();
