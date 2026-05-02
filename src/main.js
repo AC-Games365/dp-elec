@@ -84,6 +84,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initCookieConsent();
 
+  // --- Gestion du Menu Mobile ---
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  if (mobileMenuButton && mobileMenu) {
+    const toggleMenu = () => {
+      const isHidden = mobileMenu.classList.contains('hidden');
+
+      if (!isHidden) {
+        // Fermer
+        mobileMenu.style.maxHeight = '0px';
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+        }, 300);
+      } else {
+        // Ouvrir
+        mobileMenu.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+        setTimeout(() => {
+          // On limite la hauteur à la vue restante pour permettre le défilement interne
+          mobileMenu.style.maxHeight = 'calc(100vh - 80px)';
+        }, 10);
+      }
+    };
+
+    mobileMenuButton.addEventListener('click', toggleMenu);
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+
+        // Si c'est une ancre interne
+        if (href && href.startsWith('#') && href !== '#') {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          // 1. Fermer le menu d'abord
+          if (!mobileMenu.classList.contains('hidden')) {
+            toggleMenu();
+          }
+
+          // 2. Attendre la fin de l'animation de fermeture pour scroller précisément
+          if (targetElement) {
+            setTimeout(() => {
+              const headerOffset = 128; // 128px (correspond à scroll-mt-32) pour laisser de l'espace
+              const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+              const offsetPosition = elementPosition - headerOffset;
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+              });
+            }, 350);
+          }
+        }
+      });
+    });
+  }
+
 
   // Gestion du bouton "Scroll to Top"
   const scrollToTopBtn = document.getElementById('scroll-to-top');
@@ -108,10 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Gestion de la popup Bornes de Recharge ---
-  const cardBornes = document.getElementById('card-bornes-recharge');
+  const cardBornes = document.getElementById('bornes');
   const popupBornes = document.getElementById('popup-bornes');
   const closePopupBtn = document.getElementById('close-popup');
-  const closePopupBtn2 = document.getElementById('close-popup-btn');
   const popupContent = document.getElementById('popup-content');
 
   if (cardBornes && popupBornes) {
@@ -134,9 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     cardBornes.addEventListener('click', openPopup);
-    // FIX: null guards — ces IDs peuvent ne pas exister dans le HTML
     if (closePopupBtn) closePopupBtn.addEventListener('click', closePopup);
-    if (closePopupBtn2) closePopupBtn2.addEventListener('click', closePopup);
 
     popupBornes.addEventListener('click', (e) => {
       if (e.target === popupBornes) {
@@ -152,10 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Gestion de la popup Batteries ---
-  const cardBatterie = document.getElementById('card-batterie');
+  const cardBatterie = document.getElementById('batteries');
   const popupBatterie = document.getElementById('popup-batterie');
   const closePopupBatterieBtn = document.getElementById('close-popup-batterie');
-  const closePopupBatterieBtn2 = document.getElementById('close-popup-btn-batterie');
   const popupContentBatterie = document.getElementById('popup-content-batterie');
 
   if (cardBatterie && popupBatterie) {
@@ -178,9 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     cardBatterie.addEventListener('click', openPopupBatterie);
-    // FIX: null guards — ces IDs peuvent ne pas exister dans le HTML
     if (closePopupBatterieBtn) closePopupBatterieBtn.addEventListener('click', closePopupBatterie);
-    if (closePopupBatterieBtn2) closePopupBatterieBtn2.addEventListener('click', closePopupBatterie);
 
     popupBatterie.addEventListener('click', (e) => {
       if (e.target === popupBatterie) {
