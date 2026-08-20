@@ -5,3 +5,15 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Animation d'entrée au scroll pour les cartes */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+

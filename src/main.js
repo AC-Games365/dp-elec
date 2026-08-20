@@ -333,6 +333,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- Scroll-reveal léger sur les cartes de service ---
+  const revealCards = document.querySelectorAll('.reveal-card');
+  if (revealCards.length > 0) {
+    const showCard = (card, delay) => setTimeout(() => card.classList.add('visible'), delay);
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const delay = (Array.from(revealCards).indexOf(entry.target) % 3) * 80;
+            showCard(entry.target, delay);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+
+      requestAnimationFrame(() => {
+        revealCards.forEach(card => observer.observe(card));
+      });
+
+      // Filet de sécurité : révèle tout au bout de 800ms
+      setTimeout(() => revealCards.forEach(c => c.classList.add('visible')), 800);
+    } else {
+      revealCards.forEach(c => c.classList.add('visible'));
+    }
+  }
+
   // Gestion du formulaire de contact
   const contactForm = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
